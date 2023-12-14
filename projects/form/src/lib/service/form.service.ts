@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { FORM_TYPE, VALIDATION } from '../enum';
-import { FormModel } from '../model';
+import { CreatistFormModel } from '../model';
 
 interface FormItemInterface {
   key: string;
@@ -20,12 +20,12 @@ interface FormItemInterface {
 export class CreatistFormService {
   form: FormGroup;
 
-  constructor() {
+  constructor () {
     this.form = this.getNewFormGroup();
   }
 
-  generateForm(formConst: FormModel[]) {
-    formConst.forEach((item: FormModel) => {
+  generateForm(formConst: CreatistFormModel[]) {
+    formConst.forEach((item: CreatistFormModel) => {
       switch (item.type) {
         case FORM_TYPE.ARRAY: {
           const array = this.getNewFormArray(item);
@@ -46,11 +46,11 @@ export class CreatistFormService {
     return new FormGroup({});
   }
 
-  getNewFormArray(item: FormModel): FormItemInterface {
+  getNewFormArray(item: CreatistFormModel): FormItemInterface {
     const validation = this.getValidations(item.validation);
     const control = new FormArray([], validation);
     const group = this.getNewFormGroup();
-    item.value.forEach((formItem: FormModel) => {
+    item.value.forEach((formItem: CreatistFormModel) => {
       const item = this.getNewFormControl(formItem);
       group.addControl(item.key, item.item);
     });
@@ -58,7 +58,7 @@ export class CreatistFormService {
     return <FormItemInterface>{ key: item.key, item: control };
   }
 
-  getNewFormControl(item: FormModel): FormItemInterface {
+  getNewFormControl(item: CreatistFormModel): FormItemInterface {
     const validation = this.getValidations(item.validation);
     const control = new FormControl(item.value, validation);
     return <FormItemInterface>{ key: item.key, item: control };
