@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
-  FormArray,
-  FormControl,
-  FormGroup,
+  UntypedFormArray,
+  UntypedFormControl,
+  UntypedFormGroup,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
@@ -18,7 +18,7 @@ interface FormItemInterface {
   providedIn: 'root',
 })
 export class CreatistFormService {
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor () {
     this.form = this.getNewFormGroup();
@@ -43,12 +43,12 @@ export class CreatistFormService {
   }
 
   getNewFormGroup() {
-    return new FormGroup({});
+    return new UntypedFormGroup({});
   }
 
   getNewFormArray(item: CreatistFormModel): FormItemInterface {
     const validation = this.getValidations(item.validation);
-    const control = new FormArray([], validation);
+    const control = new UntypedFormArray([], validation);
     const group = this.getNewFormGroup();
     item.value.forEach((formItem: CreatistFormModel) => {
       const item = this.getNewFormControl(formItem);
@@ -60,7 +60,7 @@ export class CreatistFormService {
 
   getNewFormControl(item: CreatistFormModel): FormItemInterface {
     const validation = this.getValidations(item.validation);
-    const control = new FormControl(item.value, validation);
+    const control = new UntypedFormControl(item.value, validation);
     return <FormItemInterface>{ key: item.key, item: control };
   }
 
